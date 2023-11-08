@@ -1,15 +1,38 @@
 package hitori_solver;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        int[][] input = new int[][] {
-            {3, 3, 4, 5, 5},
-            {1, 4, 3, 2, 4},
-            {4, 1, 5, 3, 1},
-            {1, 4, 5, 1, 5},
-            {5, 2, 1, 4, 1}
-        };
-        HitoriSolver a = new HitoriSolver(5, input);
+        int[][] inputMatrix = readInput("src/main/java/hitori_solver/input/input.txt");
+        HitoriSolver a = new HitoriSolver(inputMatrix.length, inputMatrix);
         a.Solve();
+    }
+
+    public static int[][] readInput(String path) {
+        int matrixSize;
+        try {
+            File file = new File(path);
+            Scanner scanner = new Scanner(file);
+            String firstElement = scanner.next();
+            matrixSize = Integer.parseInt(firstElement);
+
+            int[][] array = new int[matrixSize][matrixSize];
+            int num = 0;
+            while (scanner.hasNext()) {
+                String element = scanner.next();
+                if (element.equals(".")) array[num / matrixSize][num % matrixSize] = 0;
+                else array[num / matrixSize][num % matrixSize] = Integer.parseInt(element);
+                num++;
+            }
+            scanner.close();
+
+            return array;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new int[0][0];
     }
 }

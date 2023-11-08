@@ -31,7 +31,7 @@ public class HitoriSolver {
         GenerateFirstRuleClause();
         // PrintClause();
         GenerateSecondRuleClause();
-        GenerateThirdRuleClause();
+        //GenerateThirdRuleClause();
         try {
             SAT4JSolver();
         } catch (ContradictionException e) {
@@ -69,6 +69,7 @@ public class HitoriSolver {
     }
 
     public void GenerateFirstRuleClause() {
+        //At most one: each value exists most once in each row, each column
         for (int i = 0; i < matrixSize; i++) {
             Map<Integer, ArrayList<Integer>> duplicateMapColumn = new HashMap<Integer, ArrayList<Integer>>();
             Map<Integer, ArrayList<Integer>> duplicateMapRow = new HashMap<Integer, ArrayList<Integer>>();
@@ -309,7 +310,7 @@ public class HitoriSolver {
 
             if (isSAT) {
                 int[] model = solver.model();
-                for (int i = 0; i < numberOfVariable; i++) {
+                for (int i = 0; i < matrixSize * matrixSize; i++) {
                     String a = "";
                     for (String stringID : idMap.keySet()) {
                         if (idMap.get(stringID) == i + 1) {
@@ -317,9 +318,9 @@ public class HitoriSolver {
                             //System.out.println(a);
                         }
                     }
-                    if (model[i] > 0) {
+                    //if (model[i] > 0) {
                         System.out.println(a + ": " + model[i]);
-                    }
+                    //}
                     
                 }
 
